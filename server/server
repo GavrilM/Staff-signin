@@ -1,0 +1,39 @@
+Meteor.startup(function () {
+	if(Groups.find().count() === 0){
+    Groups.insert({
+    	name : 'VHS',
+    	times : []
+    });
+    }
+  });
+Meteor.methods({
+	addTime : function(start,end){
+		var times = Groups.findOne({}).times;
+		times = insert({
+			starttime: start,
+			endtime: end,
+			person: null
+		},times);
+		Groups.update(Groups.findOne({}), 
+			{$set: {
+                times : times
+            }})
+	},
+	removetime : function(time){
+		var times = Groups.findOne({}).times;
+		times.find(function(e){
+			return e.starttime == time.starttime && e.endtime == time.endtime;
+		});
+	}
+	validate : function(){
+
+	}
+});
+
+function insert(element, array) {
+  array.push(element);
+  array.sort(function(a, b) {
+    a.starttime.hour() - b.starttime.hour();
+  });
+  return array;
+}

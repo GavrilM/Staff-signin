@@ -1,0 +1,1 @@
+Groups = Mongo.Collection("groups");
